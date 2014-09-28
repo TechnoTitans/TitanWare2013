@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * To change this template, choose Tools | Templates<a name="line.2"></a>
+<span class="sourceLineNo">003</span> * and open the template in the editor.<a name="line.3"></a>
+<span class="sourceLineNo">004</span> */<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>//<a name="line.6"></a>
+<span class="sourceLineNo">007</span>// file: HWPlatform.java<a name="line.7"></a>
+<span class="sourceLineNo">008</span>//<a name="line.8"></a>
+<span class="sourceLineNo">009</span>// History:<a name="line.9"></a>
+<span class="sourceLineNo">010</span>// 1/25/09 by P. Estelle - outlined possible approach as HardwareChannelConstants.h for cpp<a name="line.10"></a>
+<span class="sourceLineNo">011</span>// 1/30/10 by J. Paca    - Converted to Java as HCC.java<a name="line.11"></a>
+<span class="sourceLineNo">012</span>// 2/16/10 by P. Estelle - spilt HCC into two files.  This file defines the hardware available on<a name="line.12"></a>
+<span class="sourceLineNo">013</span>//                         the platform and will rarely change (perhaps year to year).  The other file defines<a name="line.13"></a>
+<span class="sourceLineNo">014</span>//                         how the hardware is used on a given robot implementation.<a name="line.14"></a>
+<span class="sourceLineNo">015</span>// 2/16/12 by P. Estelle - Change for FRC &amp; cRio changes in 2012 season.  Now both 4 &amp; 8 slot cRios are available.<a name="line.15"></a>
+<span class="sourceLineNo">016</span>//                         Usage has changed away from pyhsical slots to instances, even though the software<a name="line.16"></a>
+<span class="sourceLineNo">017</span>//                         docs still use slot terminology.  In addition, National Instruments has "crippled" the<a name="line.17"></a>
+<span class="sourceLineNo">018</span>//                         cRios in minor ways by disabling slots and requiring defined modules in defined slots<a name="line.18"></a>
+<span class="sourceLineNo">019</span>//<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>package edu.wpi.first.wpilibj.templates;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
+<span class="sourceLineNo">024</span> *  Define hardware available on cRIO platform for FRC 2009, FRC 2010, FRC 2011, FRC2012<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * This is a tedious, but useful one-time-per-season task.<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * Only edit this section to add resources or correct errors<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * or when the control system changes<a name="line.28"></a>
+<span class="sourceLineNo">029</span> *<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * The I/O available on the platform is arranged by I/O type <a name="line.30"></a>
+<span class="sourceLineNo">031</span> * in order to help track resource usage if I/O is scarce<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * This serves as documentation and is useful to co-ordinate<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * with other project members (electrical and mechanical)<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @author MentorPete<a name="line.36"></a>
+<span class="sourceLineNo">037</span> */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>public class HWP<a name="line.38"></a>
+<span class="sourceLineNo">039</span>{<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>    // *** NOTE ***<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    // Coding convention is that defined constants are upper case<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    // not lower or mixed case.  This is to draw attention<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    // to the facts that they are constants and not variables<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>    // Define Instances of Modules<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    // at present there can be a max of two instances of any module<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    public static final int  INSTANCE_1 = 1;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    public static final int  INSTANCE_2 = 2;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    <a name="line.50"></a>
+<span class="sourceLineNo">051</span>    //Define Module Instances<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    //Sometimes referred to as "slots" in the wpilib software docs<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    //Physical slots 1-3 are predefined and the same for both 4 and 8 slot cRio<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    //Variations occur for slots 4 - 8<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    //4 slot cRio has only physical slot 4 available for a second instance of any module<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    //8 slot cRio has physical slots 5-7 for available for pre-defined second instances<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    //8 slot cRio has physical slots 4 &amp; 8 unavailable<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    public static final int ANALOG_MODULE_1   = INSTANCE_1; //Phys 1; instance 1    <a name="line.58"></a>
+<span class="sourceLineNo">059</span>    public static final int DIGITAL_MODULE_1  = INSTANCE_1; //Phys 2; instance 1<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    public static final int SOLENOID_MODULE_1 = INSTANCE_1; //Phys 3; instance 1<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    public static final int ANALOG_MODULE_2   = INSTANCE_2; //Phys 4 or 5; instance 2<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    public static final int DIGITAL_MODULE_2  = INSTANCE_2; //Phys 4 or 6; instance 2<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    public static final int SOLENOID_MODULE_2 = INSTANCE_2; //Phys 4 or 7; instance 2<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    <a name="line.64"></a>
+<span class="sourceLineNo">065</span>    // Define legacy cRIO slots on 8 slot chassis<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    // and code before 2012<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    public static final int  SLOT_1 = 1; //analog<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    public static final int  SLOT_2 = 2; //digital<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    public static final int  SLOT_3 = 3; //solenoid<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    public static final int  SLOT_4 = 4; //not used<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    public static final int  SLOT_5 = 5; //second analog<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    public static final int  SLOT_6 = 6; //second digital<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    public static final int  SLOT_7 = 7; //second solenoid<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    public static final int  SLOT_8 = 8; //not used<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>    // Define PWM outputs<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    public static final int  PWM_1 =  1;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    public static final int  PWM_2 =  2;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    public static final int  PWM_3 =  3;<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    public static final int  PWM_4 =  4;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    public static final int  PWM_5 =  5;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    public static final int  PWM_6 =  6;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    public static final int  PWM_7 =  7;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    public static final int  PWM_8 =  8;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    public static final int  PWM_9 =  9;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    public static final int  PWM_10 = 10;<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>    //Define CAN outputs<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    public static final int  CAN_1 =  1;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    public static final int  CAN_2 =  2;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    public static final int  CAN_3 =  3;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    public static final int  CAN_4 =  4;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    public static final int  CAN_5 =  5;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    public static final int  CAN_6 =  6;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    public static final int  CAN_7 =  7;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    public static final int  CAN_8 =  8;<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    public static final int  CAN_9 =  9;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    public static final int  CAN_10 =  10;<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    public static final int  CAN_11 =  11;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    public static final int  CAN_12 =  12;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    public static final int  CAN_13 =  13;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    public static final int  CAN_14 =  14;<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    public static final int  CAN_15 =  15;<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    public static final int  CAN_16 =  16;<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    public static final int  CAN_17 =  17;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    public static final int  CAN_18 =  18;<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>    // Define GPIO (general purpose digital I/O)<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    public static final int  GPIO_1 =  1;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    public static final int  GPIO_2 =  2;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    public static final int  GPIO_3 =  3;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    public static final int  GPIO_4 =  4;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    public static final int  GPIO_5 =  5;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    public static final int  GPIO_6 =  6;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    public static final int  GPIO_7 =  7;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    public static final int  GPIO_8 =  8;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    public static final int  GPIO_9 =  9;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    public static final int  GPIO_10 = 10;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    public static final int  GPIO_11 = 11;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    public static final int  GPIO_12 = 12;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    public static final int  GPIO_13 = 13;<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    public static final int  GPIO_14 = 14;<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>    // Define Relay Outputs<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    public static final int  RELAY_1 = 1;<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    public static final int  RELAY_2 = 2;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    public static final int  RELAY_3 = 3;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    public static final int  RELAY_4 = 4;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    public static final int  RELAY_5 = 5;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    public static final int  RELAY_6 = 6;<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    public static final int  RELAY_7 = 7;<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    public static final int  RELAY_8 = 8;<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>    // Define Joysticks<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    public static final int  JOY_1 = 1;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    public static final int  JOY_2 = 2;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    public static final int  JOY_3 = 3;<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    public static final int  JOY_4 = 4;<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>    // Define Joystick Buttons<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    public static final int  BUTTON_1 = 1; //Trigger<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    public static final int  BUTTON_2 = 2;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    public static final int  BUTTON_3 = 3;<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    public static final int  BUTTON_4 = 4;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    public static final int  BUTTON_5 = 5;<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    public static final int  BUTTON_6 = 6;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    public static final int  BUTTON_7 = 7;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    public static final int  BUTTON_8 = 8;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    public static final int  BUTTON_9 = 9;<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    public static final int  BUTTON_10 = 10;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>    public static final int  BUTTON_11 = 11;<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>    // Define Analog<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    public static final int  ANALOG_1 = 1;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    public static final int  ANALOG_2 = 2;<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    public static final int  ANALOG_3 = 3;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    public static final int  ANALOG_4 = 4;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    public static final int  ANALOG_5 = 5;<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    public static final int  ANALOG_6 = 6;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    public static final int  ANALOG_7 = 7;<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    public static final int  ANALOG_8 = 8;<a name="line.161"></a>
+<span class="sourceLineNo">162</span><a name="line.162"></a>
+<span class="sourceLineNo">163</span>    // Define Solenoids<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    public static final int  TOTAL_SOLS = 8;<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    public static final int  SOLENOID_1 = 1;<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    public static final int  SOLENOID_2 = 2;<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    public static final int  SOLENOID_3 = 3;<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    public static final int  SOLENOID_4 = 4;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    public static final int  SOLENOID_5 = 5;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    public static final int  SOLENOID_6 = 6;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    public static final int  SOLENOID_7 = 7;<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    public static final int  SOLENOID_8 = 8;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    <a name="line.173"></a>
+<span class="sourceLineNo">174</span>    // Driver Station I/O (Enhanced I/O) for FRC2010<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    public static final int  DSIO_1     = 1;<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    public static final int  DSIO_2     = 2;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    public static final int  DSIO_3     = 3;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>    public static final int  DSIO_4     = 4;<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    public static final int  DSIO_5     = 5;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    public static final int  DSIO_6     = 6;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>    public static final int  DSIO_7     = 7;<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    public static final int  DSIO_8     = 8;<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    public static final int  DSIO_9     = 9;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    public static final int  DSIO_10    = 10;<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    public static final int  DSIO_11    = 11;<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    public static final int  DSIO_12    = 12;<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    public static final int  DSIO_13    = 13;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    public static final int  DSIO_14    = 14;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    public static final int  DSIO_15    = 15;<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    public static final int  DSIO_16    = 16;<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>    // Define Camera &amp; Vision<a name="line.192"></a>
+<span class="sourceLineNo">193</span>}<a name="line.193"></a>
+<span class="sourceLineNo">194</span><a name="line.194"></a>
+<span class="sourceLineNo">195</span><a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
